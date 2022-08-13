@@ -8,7 +8,8 @@ from .views import (
     Generate_pdf , 
     InvoiceExpenseThroughView  ,
     ExpenseItemView, 
-    ExpenseItemListView
+    ExpenseItemListView,
+    ThroughList
     )
 
 
@@ -16,6 +17,7 @@ urlpatterns =[
     path('', InvoiceListView.as_view()),
     path("<int:pk>", InvoiceView.as_view()),
     path('<int:pk>/pdf/', Generate_pdf.as_view()), 
+    path('through/',ThroughList.as_view()),
     path('through/<int:pk>/', InvoiceExpenseThroughView.as_view()),
     path('expense_item/<int:pk>/',ExpenseItemView.as_view()),
     path('expense_items/',ExpenseItemListView.as_view())

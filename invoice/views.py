@@ -59,6 +59,9 @@ class ExpenseItemListView(ListCreateAPIView):
     serializer_class = ExpenseItemSerializer
     queryset= ExpenseItem.objects.all()
 
+class ThroughList(ListCreateAPIView):
+    serializer_class = InvoiceExpenseThroughSerializer
+    queryset = InvoiceExpenseThrough.objects.all()
 
 class InvoiceExpenseThroughView(RetrieveUpdateDestroyAPIView):
     serializer_class = InvoiceExpenseThroughSerializer
