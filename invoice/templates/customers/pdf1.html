@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{items.invoice_title}}</h1>
+    <p>{{items.date}}</p>
+    <img src="{{items.receipt_image}}"/>
+    <br>
+    <table>
+        <tr>
+            <th>name</th>
+            <th>amount</th>
+        </tr>
+<br>
+
+    {% for item in items.expense_items.all %}
+        <tr>
+            <th>{{item.name}}</th>
+            <th>{{item.amount}}</th>
+        </tr>
+    {% endfor %} 
+    </table>
+</body>
+</html>

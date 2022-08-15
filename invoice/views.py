@@ -1,5 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render ,get_object_or_404
+
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
 
 # Create your views here.
 from .models import (
@@ -105,3 +112,29 @@ class Generate_pdf(DetailView):
         return FileResponse(buffer, as_attachment=True, filename=f'{queryset[0].invoice_title}.pdf')  
         # 
         # Create a file-like buffer to receive PDF data.
+
+def custom_render_pdf_view(request, *args, **kwargs):
+
+    pk = kwargs.get('pk')
+    invoice = get_object_or_404(Invoice, pk=pk)
+    template_path = 'customers/pdf1.html'
+    context = {'items': invoice}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    #  if we want to download
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # if we just want to display the file 
+    response['Content-Disposition'] = ''
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+    pass
